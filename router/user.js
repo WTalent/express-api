@@ -5,6 +5,8 @@ const router=express.Router();
 const user=require("../dataBaseStruct/user");
 //移入密码加密模块
 const bcryptjs=require("bcryptjs");
+//引入jwt模块，做用户校验工作
+const jwt=require("jsonwebtoken");
 
 //处理用户注册
 router.post('/sign-up',async(req,res)=>{
@@ -56,9 +58,16 @@ router.post('/sign-in',async(req,res)=>{
     let isok=bcryptjs.compare(email,data.email);
     if(isok)
     {
+      //进行jwt签名，给登录的用户一个令牌
+      let  token=jwt.sign({
+             userId:data._id,
+             email:data.email,
+             username:data.username
+      },"auth");
       res.send({
           code:1,
-          meg:"登录成功"
+          meg:"登录成功",
+          token:token
       });  
     }
     else

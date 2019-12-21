@@ -5,6 +5,7 @@ const express=require("express");
 const server=express();
 //引入路由模块
 const userRouter=require("./router/user");
+const postRouter=require("./router/post");
 
 //调用中间件
    //处理req.body属性
@@ -16,12 +17,12 @@ const userRouter=require("./router/user");
 server.use(function(req, res, next) {
    res.setHeader('Access-Control-Allow-Origin', '*');
    res.setHeader('Access-Control-Allow-Methods', 'GET, POST');
-   res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type, Authorization');
+   res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type, Authorization,userinfor');
    next();
  });
 
 //处理路由
-server.use('/api',userRouter);
+server.use('/api',[userRouter,postRouter]);
 
 
 //监听端口
