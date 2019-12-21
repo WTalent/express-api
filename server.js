@@ -12,6 +12,13 @@ const userRouter=require("./router/user");
    server.use(express.urlencoded({extended:true}));
    //设置静态资源托管
    server.use(express.static('public'));
+//处理跨域问题
+server.use(function(req, res, next) {
+   res.setHeader('Access-Control-Allow-Origin', '*');
+   res.setHeader('Access-Control-Allow-Methods', 'GET, POST');
+   res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type, Authorization');
+   next();
+ });
 
 //处理路由
 server.use('/api',userRouter);
